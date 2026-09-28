@@ -1317,6 +1317,7 @@ async def benchmark(
             "completed": metrics.completed,
             "total_input_tokens": metrics.total_input,
             "total_input_sequences": metrics.total_input_sequences,
+            "failed": metrics.failed,
             "request_throughput": metrics.request_throughput,
             "input_sequence_throughput": metrics.input_sequence_throughput,
             "total_token_throughput": metrics.total_token_throughput,
@@ -1541,6 +1542,10 @@ def save_to_pytorch_benchmark_format(
         "mean_itl_ms",
         "std_itl_ms",
         "p99_itl_ms",
+        "median_e2el_ms",
+        "mean_e2el_ms",
+        "std_e2el_ms",
+        "p99_e2el_ms",
     ]
     # These raw data might be useful, but they are rather big. They can be added
     # later if needed
@@ -2305,6 +2310,7 @@ async def main_async(args: argparse.Namespace) -> dict[str, Any]:
     )
     result_json["burstiness"] = args.burstiness
     result_json["max_concurrency"] = args.max_concurrency
+    result_json["num_warmups"] = args.num_warmups
 
     if args.ramp_up_strategy is not None:
         result_json["ramp_up_strategy"] = args.ramp_up_strategy
